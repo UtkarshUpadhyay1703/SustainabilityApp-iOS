@@ -8,6 +8,22 @@
 import SwiftUI
 
 struct DashboardView: View {
+    @State private var selectedTab: ViewPages = .Leaderboard
+    
+    var body: some View {
+        NavigationView {
+            ScrollView {
+                if selectedTab == .Home { HomeView() }
+                else if selectedTab == .Leaderboard { LeaderboardView() }
+            }
+            .navigationBarHidden(true)
+            .background(Color(#colorLiteral(red: 0.964, green: 0.974, blue: 0.986, alpha: 1)).edgesIgnoringSafeArea(.all))
+            .overlay(BottomTabView(selectedTab: $selectedTab), alignment: .bottom)
+        }
+    }
+}
+
+struct HomeView: View {
     private let activities: [Activity] = [
         Activity(title: "Stories", imageName: "activity_stories", xp: 20, showDot: true, buttonTitle: nil),
         Activity(title: "Quiz", imageName: "activity_quiz", xp: 10, showDot: true, buttonTitle: nil),
@@ -18,36 +34,30 @@ struct DashboardView: View {
     ]
     
     var body: some View {
-        NavigationView {
-            ScrollView {
-                VStack(spacing: 20) {
-                    HeaderView()
-                        .padding(.horizontal)
-                        .padding(.top, 6)
-                    
-                    StreakCardView()
-                        .padding(.horizontal)
-                    
-                    Text("Today's activities")
-                        .font(.title3.weight(.bold))
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal)
-                    
-                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
-                        ForEach(activities) { activity in
-                            ActivityCard(activity: activity)
-                        }
-                    }
-                    .padding(.horizontal)
-                    .padding(.bottom, 60)
+        VStack(spacing: 20) {
+            HeaderView()
+                .padding(.horizontal)
+                .padding(.top, 6)
+            
+            StreakCardView()
+                .padding(.horizontal)
+            
+            Text("Today's activities")
+                .font(.title3.weight(.bold))
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal)
+            
+            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
+                ForEach(activities) { activity in
+                    ActivityCard(activity: activity)
                 }
-                .padding(.top, 8)
             }
-            .navigationBarHidden(true)
-            .background(Color(#colorLiteral(red: 0.964, green: 0.974, blue: 0.986, alpha: 1)).edgesIgnoringSafeArea(.all))
-            .overlay(BottomTabView(), alignment: .bottom)
+            .padding(.horizontal)
+            .padding(.bottom, 60)
         }
-    }}
+        .padding(.top, 8)
+    }
+}
 
 struct HeaderView: View {
     var body: some View {
@@ -281,15 +291,27 @@ struct XPBadge: View {
     }
 }
 
-// MARK: - BottomTabView (preview-only)
+// MARK: - BottomTabView
 
 struct BottomTabView: View {
+    @Binding var selectedTab: ViewPages
+    
     var body: some View {
         HStack(spacing: 0) {
-            TabItem(icon: "house.fill", title: "HOME", selected: true)
-            TabItem(icon: "flag.fill", title: "MISSIONS", selected: false)
-            TabItem(icon: "trophy.fill", title: "LEADERBOARD", selected: false)
-            TabItem(icon: "person.crop.circle", title: "PROFILE", selected: false)
+            ForEach(ViewPages.allCases, id: \.self) { page in
+                Button {
+                    selectedTab = page
+                } label: {
+                    VStack(spacing: 4) {
+                        Image(systemName: page.rawValue)
+                            .font(.system(size: 20, weight: .semibold))
+                        Text(String(describing: page))
+                            .font(.caption2)
+                    }
+                    .foregroundStyle(selectedTab.rawValue == page.rawValue ? Color.blue : Color.gray)
+                    .frame(maxWidth: .infinity)
+                }
+            }
         }
         .padding(.vertical, 10)
         .background(
@@ -299,24 +321,6 @@ struct BottomTabView: View {
         )
         .padding(.horizontal)
         .padding(.bottom, 10)
-    }
-}
-
-struct TabItem: View {
-    let icon: String
-    let title: String
-    let selected: Bool
-    
-    var body: some View {
-        VStack(spacing: 4) {
-            Image(systemName: icon)
-                .font(.system(size: 20, weight: .semibold))
-                .foregroundStyle(selected ? Color.blue : Color.gray)
-            Text(title)
-                .font(.caption2)
-                .foregroundStyle(selected ? Color.blue : Color.gray)
-        }
-        .frame(maxWidth: .infinity)
     }
 }
 
