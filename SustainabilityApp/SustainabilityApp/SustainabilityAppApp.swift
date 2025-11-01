@@ -11,7 +11,8 @@ import SwiftUI
 struct SustainabilityAppApp: App {
     var body: some Scene {
         WindowGroup {
-            DashboardView()
+//            DashboardView()
+            LoginView()
         }
     }
 }
