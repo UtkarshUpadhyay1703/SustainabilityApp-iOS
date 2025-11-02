@@ -32,9 +32,22 @@ struct StatItem: Identifiable {
     let iconName: String?
 }
 
+struct Message: Identifiable, Codable, Equatable {
+    let id: UUID
+    let text: String
+    let isBot: Bool
+    let timestamp: Date
+    
+    init(id: UUID = UUID(), text: String, isBot: Bool, timestamp: Date = .init()) {
+        self.id = id
+        self.text = text
+        self.isBot = isBot
+        self.timestamp = timestamp
+    }
+}
 
 enum ViewPages: String, CaseIterable {
-    case Home = "house.fill", Profile = "person.crop.circle", Mission = "flag.fill", Leaderboard = "trophy.fill"
+    case Home = "house.fill", Mission = "flag.fill", Leaderboard = "trophy.fill", Profile = "person.crop.circle"
 }
 
 enum Segment:String, CaseIterable, Identifiable {

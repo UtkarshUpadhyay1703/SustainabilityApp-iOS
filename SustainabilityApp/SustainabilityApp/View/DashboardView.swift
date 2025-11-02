@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DashboardView: View {
-    @State private var selectedTab: ViewPages = .Leaderboard
+    @State private var selectedTab: ViewPages = .Mission
     
     var body: some View {
         NavigationView {
@@ -19,7 +19,9 @@ struct DashboardView: View {
                 case .Profile:
                     ProfileView()
                 case .Mission:
-                    Text("Mission")
+                    //For temperory I used Chatbot in this view:
+                    let vm = ChatViewModel(service: MockChatService())
+                    ChatbotView(viewModel: vm)
                 case .Leaderboard:
                     LeaderboardView()
                 }
