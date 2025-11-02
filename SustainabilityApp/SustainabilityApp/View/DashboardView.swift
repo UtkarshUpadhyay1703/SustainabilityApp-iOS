@@ -13,8 +13,16 @@ struct DashboardView: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                if selectedTab == .Home { HomeView() }
-                else if selectedTab == .Leaderboard { LeaderboardView() }
+                switch selectedTab {
+                case .Home:
+                    HomeView()
+                case .Profile:
+                    ProfileView()
+                case .Mission:
+                    Text("Mission")
+                case .Leaderboard:
+                    LeaderboardView()
+                }
             }
             .navigationBarHidden(true)
             .background(Color(#colorLiteral(red: 0.964, green: 0.974, blue: 0.986, alpha: 1)).edgesIgnoringSafeArea(.all))

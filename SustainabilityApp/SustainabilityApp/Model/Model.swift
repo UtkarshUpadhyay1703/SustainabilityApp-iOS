@@ -25,6 +25,19 @@ struct LeaderboardUser: Identifiable {
     let points: Int
 }
 
+struct StatItem: Identifiable {
+    let id = UUID()
+    let title: String
+    let value: String
+    let iconName: String?
+}
+
+
 enum ViewPages: String, CaseIterable {
     case Home = "house.fill", Profile = "person.crop.circle", Mission = "flag.fill", Leaderboard = "trophy.fill"
+}
+
+enum Segment:String, CaseIterable, Identifiable {
+    case performance = "PERFORMANCE", impact = "IMPACT"
+    var id: String { self.rawValue }
 }
