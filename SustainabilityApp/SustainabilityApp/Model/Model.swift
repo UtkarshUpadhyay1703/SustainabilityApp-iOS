@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import MapKit
 
 struct Activity: Identifiable {
     let id = UUID()
@@ -45,6 +46,13 @@ struct Message: Identifiable, Codable, Equatable {
         self.timestamp = timestamp
     }
 }
+
+struct FriendLocation: Identifiable {
+    let id = UUID()
+    let name: String
+    let coordinate: CLLocationCoordinate2D
+}
+
 
 enum ViewPages: String, CaseIterable {
     case Home = "house.fill", Mission = "flag.fill", Leaderboard = "trophy.fill", Profile = "person.crop.circle"

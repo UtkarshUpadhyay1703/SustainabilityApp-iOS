@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct DashboardView: View {
-    @State private var selectedTab: ViewPages = .Mission
+    @State private var selectedTab: ViewPages = .Home
+    @Binding var showDashboard: Bool
     
     var body: some View {
         NavigationView {
@@ -17,7 +18,7 @@ struct DashboardView: View {
                 case .Home:
                     HomeView()
                 case .Profile:
-                    ProfileView()
+                    ProfileView(showDashboard: $showDashboard)
                 case .Mission:
                     //For temperory I used Chatbot in this view:
                     let vm = ChatViewModel(service: MockChatService())
@@ -35,12 +36,12 @@ struct DashboardView: View {
 
 struct HomeView: View {
     private let activities: [Activity] = [
-        Activity(title: "Stories", imageName: "activity_stories", xp: 20, showDot: true, buttonTitle: nil),
-        Activity(title: "Quiz", imageName: "activity_quiz", xp: 10, showDot: true, buttonTitle: nil),
-        Activity(title: "Mobility", imageName: "activity_mobility", xp: 0, showDot: false, buttonTitle: nil),
-        Activity(title: "Wellness", imageName: "activity_wellness", xp: 0, showDot: false, buttonTitle: "ACTIVATE"),
-        Activity(title: "Routine", imageName: "activity_routine", xp: 5, showDot: true, buttonTitle: nil),
-        Activity(title: "Invite", imageName: "activity_invite", xp: 200, showDot: false, buttonTitle: nil),
+        Activity(title: "Stories", imageName: "story", xp: 20, showDot: true, buttonTitle: nil),
+        Activity(title: "Quiz", imageName: "quiz", xp: 10, showDot: true, buttonTitle: nil),
+        Activity(title: "Mobility", imageName: "mobility", xp: 0, showDot: false, buttonTitle: nil),
+        Activity(title: "Wellness", imageName: "wellness", xp: 0, showDot: false, buttonTitle: "ACTIVATE"),
+        Activity(title: "Routine", imageName: "routine", xp: 5, showDot: true, buttonTitle: nil),
+        Activity(title: "Invite", imageName: "invite", xp: 200, showDot: false, buttonTitle: nil),
     ]
     
     var body: some View {
@@ -75,9 +76,9 @@ struct HeaderView: View {
             HStack(spacing: 10) {
                 Spacer()
                 HStack(spacing: 10) {
-                    BadgeChip(icon: "leaf.fill", title: "15")
-                    BadgeChip(icon: "trophy", title: "0")
-                    BadgeChip(icon: "gift.fill", title: "3")
+                    BadgeChip(icon: "seed", title: "15")
+                    BadgeChip(icon: "bw_small_tree", title: "0")
+                    BadgeChip(icon: "gem", title: "3")
                 }
             }
             .padding()
@@ -87,11 +88,12 @@ struct HeaderView: View {
                     ZStack {
                         Circle()
                             .fill(Color.white.opacity(0.12))
-                            .frame(width: 72, height: 72)
-                        Image("mascot")
+                            .frame(width: 80, height: 80)
+                        Image("dashboard_image")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 64, height: 64)
+                            .clipShape(Circle())
+                            .frame(width: 72, height: 72)
                     }
                     
                     VStack(alignment: .leading, spacing: 8) {
@@ -136,20 +138,24 @@ struct BadgeChip: View {
     let title: String
     
     var body: some View {
-        HStack {
-            Image(systemName: icon)
-                .font((.subheadline))
+        HStack(spacing: 6) {
+            Image(icon)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 16, height: 16)
                 .foregroundStyle(.white)
+            
             Text(title)
-                .foregroundStyle(.white)
-                .font(.subheadline).bold()
+                .foregroundStyle(.black)
+                .font(.subheadline.bold())
         }
-        .padding(.vertical, 8)
+        .padding(.vertical, 6)
         .padding(.horizontal, 10)
-        .background(Color.white.opacity(0.12))
+        .background(Color.white)
         .clipShape(Capsule())
     }
 }
+
 
 // MARK: - StreakCardView
 
@@ -159,7 +165,7 @@ struct StreakCardView: View {
     var body: some View {
         VStack(spacing: 12) {
             HStack {
-                Image(systemName: "leaf.circle.fill")
+                Image("small_tree")
                     .font(.title)
                     .foregroundStyle(Color.green)
                     .padding(8)
@@ -225,7 +231,7 @@ struct ActivityCard: View {
                     HStack(spacing: 10) {
                         Circle().fill(Color(.systemGray6)).frame(width: 34, height: 34)
                             .overlay(
-                                Image(systemName: "book.fill")
+                                Image(activity.imageName)
                                     .font(.system(size: 16))
                                     .foregroundStyle(Color(.systemBlue))
                             )
@@ -249,6 +255,7 @@ struct ActivityCard: View {
                         .frame(width: 80, height: 60)
                         .clipped()
                         .offset(x: -6, y: 4)
+                    Spacer()
                 }
                 .padding(.horizontal)
                 .padding(.bottom, 8)
@@ -265,7 +272,9 @@ struct ActivityCard: View {
                                     .foregroundStyle(.white)
                             }
                         } else {
+                            Spacer()
                             XPBadge(xp: activity.xp)
+                                .padding()
                         }
                     }
                 }
@@ -350,5 +359,6 @@ struct RoundedCorner: Shape {
 
 
 #Preview {
-    DashboardView()
+    @Previewable @State var show: Bool = true
+    DashboardView(showDashboard: $show)
 }

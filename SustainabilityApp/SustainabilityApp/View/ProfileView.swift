@@ -6,9 +6,12 @@
 //
 
 import SwiftUI
+import SwiftKeychainWrapper
 
 struct ProfileView: View {
     @State private var selectedSegment: Segment = .performance
+    @Binding var showDashboard: Bool
+    
     // sample stats
     private let stats: [StatItem] = [
         StatItem(title: "Days", value: "1", iconName: "small_tree"),
@@ -27,10 +30,9 @@ struct ProfileView: View {
                             .frame(width: 140, height: 48)
                             .padding(.leading, 12)
                         Spacer()
-                        Button(action: {
-                            // settings action
-                        }) {
-                            Image(systemName: "gearshape.fill")
+                        NavigationLink(destination:
+                            MapPageView()) {
+                            Image(systemName: "globe")
                                 .font(.system(size: 20))
                                 .foregroundColor(Color(#colorLiteral(red: 0.298, green: 0.286, blue: 0.463, alpha: 1)))
                                 .padding(12)
@@ -38,6 +40,12 @@ struct ProfileView: View {
                                 .clipShape(RoundedRectangle(cornerRadius: 12))
                                 .shadow(color: Color.black.opacity(0.04), radius: 2, x: 0, y: 1)
                         }
+                        
+                        Button("Logout", action: {
+                            KeychainWrapper.standard.removeObject(forKey: "userEmail")
+                            KeychainWrapper.standard.removeObject(forKey: "userPassword")
+                            showDashboard = false
+                        })
                         .padding(.trailing, 12)
                     }
                     .padding(.top, 12)
@@ -267,5 +275,6 @@ struct TabItem: View {
 }
 
 #Preview {
-    ProfileView()
+    @Previewable @State var show: Bool = true
+    ProfileView(showDashboard: $show)
 }

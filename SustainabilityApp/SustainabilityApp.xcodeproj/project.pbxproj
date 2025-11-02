@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		599DDBAD2EB7C54600B2AD7D /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 599DDBAC2EB7C54600B2AD7D /* SwiftKeychainWrapper */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		590627392EB4FBF600BD1866 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				599DDBAD2EB7C54600B2AD7D /* SwiftKeychainWrapper in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +83,7 @@
 				5906272D2EB4FBF400BD1866 /* SustainabilityApp */,
 				5906273B2EB4FBF600BD1866 /* SustainabilityAppTests */,
 				590627452EB4FBF600BD1866 /* SustainabilityAppUITests */,
+				599DDBAB2EB7C54600B2AD7D /* Frameworks */,
 				5906272C2EB4FBF400BD1866 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -90,6 +96,13 @@
 				590627422EB4FBF600BD1866 /* SustainabilityAppUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		599DDBAB2EB7C54600B2AD7D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -112,6 +125,7 @@
 			);
 			name = SustainabilityApp;
 			packageProductDependencies = (
+				599DDBAC2EB7C54600B2AD7D /* SwiftKeychainWrapper */,
 			);
 			productName = SustainabilityApp;
 			productReference = 5906272B2EB4FBF400BD1866 /* SustainabilityApp.app */;
@@ -195,6 +209,9 @@
 			);
 			mainGroup = 590627222EB4FBF400BD1866;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				594C27972EB7C408008BFD8D /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 5906272C2EB4FBF400BD1866 /* Products */;
 			projectDirPath = "";
@@ -578,6 +595,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		594C27972EB7C408008BFD8D /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jrendel/SwiftKeychainWrapper";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		599DDBAC2EB7C54600B2AD7D /* SwiftKeychainWrapper */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 594C27972EB7C408008BFD8D /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */;
+			productName = SwiftKeychainWrapper;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 590627232EB4FBF400BD1866 /* Project object */;
 }

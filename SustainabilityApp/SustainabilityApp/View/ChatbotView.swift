@@ -11,7 +11,6 @@ struct ChatbotView: View {
     @StateObject var viewModel: ChatViewModel
     @Namespace private var bottomID
     
-    // Use init to accept a pre-initialized viewModel from outside
     init(viewModel: ChatViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
@@ -113,9 +112,7 @@ struct MessageRow: View {
     var body: some View {
         HStack {
             if message.isBot {
-                // bot bubble (left)
                 HStack(alignment: .bottom, spacing: 12) {
-                    // small avatar
                     Circle()
                         .fill(Color.white)
                         .frame(width: 40, height: 40)
@@ -136,7 +133,6 @@ struct MessageRow: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
             } else {
-                // user bubble (right)
                 Spacer()
                 VStack(alignment: .trailing, spacing: 6) {
                     Text(message.text)

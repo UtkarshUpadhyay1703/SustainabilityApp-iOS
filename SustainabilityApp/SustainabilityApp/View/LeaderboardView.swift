@@ -66,9 +66,9 @@ struct HeaderLeagueView: View {
         VStack(spacing: 14) {
             HStack(spacing: 12) {
                 Spacer()
-                BadgeChip(icon: "leaf.fill", title: "15")
-                BadgeChip(icon: "trophy", title: "0")
-                BadgeChip(icon: "gift.fill", title: "3")
+                BadgeChip(icon: "seed", title: "15")
+                BadgeChip(icon: "bw_small_tree", title: "0")
+                BadgeChip(icon: "gem", title: "3")
             }
             .padding()
             
@@ -76,7 +76,7 @@ struct HeaderLeagueView: View {
                 Circle()
                     .fill(Color(.systemBackground))
                     .frame(width: 56, height: 56)
-                    .overlay(Image("badge_seed").resizable().scaledToFit().frame(width: 40, height: 40))
+                    .overlay(Image("crop").resizable().scaledToFit().frame(width: 40, height: 40))
                 
                 ForEach(0..<4) { _ in
                     Circle()
@@ -142,7 +142,7 @@ struct LeaderRowView: View {
                 .frame(width: 40)
             
             HStack(spacing: 12) {
-                Image(user.avatarName)
+                Image(systemName: "person")
                     .resizable()
                     .scaledToFill()
                     .frame(width: 44, height: 44)

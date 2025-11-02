@@ -7,10 +7,12 @@
 
 
 import SwiftUI
+import SwiftKeychainWrapper
 
 struct LoginView: View {
     @State private var email: String = ""
     @State private var showDashboard = false
+    @State private var showAlert = false
     
     var body: some View {
         NavigationView {
@@ -57,7 +59,12 @@ struct LoginView: View {
                     
                     Button {
                         withAnimation {
-                            showDashboard = true
+                            if email == KeychainWrapper.standard.string(forKey: "userEmail") {
+                                email = ""
+                                showDashboard = true
+                            } else {
+                                showAlert = true
+                            }
                         }
                     } label: {
                         HStack {
@@ -85,7 +92,7 @@ struct LoginView: View {
                 }
                 
                 // MARK: - Registration
-                NavigationLink(destination: RegistrationView()) {
+                NavigationLink(destination: RegistrationView(showDashboard: $showDashboard)) {
                     Spacer()
                     HStack {
                         Text("Go to Registration")
@@ -103,8 +110,18 @@ struct LoginView: View {
             }
             .padding(20)
             .background(Color(#colorLiteral(red: 0.964, green: 0.974, blue: 0.986, alpha: 1)).edgesIgnoringSafeArea(.all))
+            .alert("Error", isPresented: $showAlert, actions: {
+                Button {
+                    email = ""
+                    showAlert = false
+                } label: {
+                    Text("Cancel")
+                }
+            }, message: {
+                Text("Please enter correct Email Id or Register first!")
+            })
             .fullScreenCover(isPresented: $showDashboard) {
-                DashboardView() // navigate to main dashboard after login
+                DashboardView(showDashboard: $showDashboard) // navigate to main dashboard after login
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())
@@ -148,22 +165,6 @@ struct LoginButton: View {
         }
     }
 }
-
-// MARK: - Registration View
-
-struct RegistrationView: View {
-    var body: some View {
-        VStack {
-            Text("Registration Page")
-                .font(.largeTitle)
-                .padding()
-            Spacer()
-        }
-        .navigationTitle("Register")
-    }
-}
-
-
 
 #Preview {
     LoginView()
